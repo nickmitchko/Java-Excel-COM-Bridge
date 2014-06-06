@@ -7,7 +7,7 @@ A simple Wrapper Class that properly communicates with an excel com object to lo
 
  How to use This Bridge:
 
- - Setting Up, Library is in ~/store
+ - Setting Up, Library is in ~/distribution
 
                place jExcelBridge.jar as library either in project or classpath. 
                import main.bridge.ExcelWorker;

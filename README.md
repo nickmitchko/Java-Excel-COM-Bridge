@@ -2,15 +2,15 @@ Java-Excel-COM-Bridge (1.0)
 =====================
 
 
-A simple Wrapper Class that properly communicates with an excel com object to load, open, modify, get values from, and save any Excel acceptable file. Uses [jacob], library is already implemented
+A library that properly communicates with an excel com object to load, open, modify, get values from, and save any Excel acceptable file. Uses [jacob], which is already implemented.
 
 
  How to use This Bridge:
 
  - Setting Up, Library is in ~/distribution
 
-               place Java-Excel-COM-Bridge.jar as library either in project or classpath. 
-               import main.bridge.ExcelWorker;
+               1. Use Java-Excel-COM-Bridge.jar as library either in project or classpath. 
+               2. import main.bridge.ExcelWorker;
 
  - Initialize
 

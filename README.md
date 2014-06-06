@@ -42,4 +42,6 @@ A simple Wrapper Class that properly communicates with an excel com object to lo
                     //Jacob has to be destoryed manually or else there are lingering
                     //Excel processes which leak memory
 
+![alt text](http://i.imgur.com/b3FuvgU.png, "Data Diagram")
+
 [jacob]:http://danadler.com/jacob/

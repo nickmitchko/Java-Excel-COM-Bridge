@@ -44,4 +44,6 @@ A library that properly communicates with an excel com object to load, open, mod
 
 ![alt text](http://i.imgur.com/b3FuvgU.png, "Data Diagram")
 
+![alt text](http://www.brotherlykicks.com/pics/Untitled%20Diagram%20(1).png, "Speed Test")
+
 [jacob]:http://danadler.com/jacob/

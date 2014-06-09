@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +40,7 @@ public class ExcelWorker {
         initComBridge();
     }
     
-    public List getSheets(){
+    public ArrayList<String> getSheets(){
         if(!this.isLoaded){
             return null;
         }
@@ -132,6 +131,14 @@ public class ExcelWorker {
         return Dispatch.get(cell, "Value");
     }
     
+    public Object getCellValue(int row, int col){
+        if(!this.isLoaded){
+            return null;
+        }
+        Dispatch cell = Dispatch.invoke(activeSheet, "Cells", Dispatch.Get, new Object[] {row+1, col+1}, new int[1]).toDispatch();
+        return Dispatch.get(cell, "Value");
+    }
+    
     public void recalculate(){
         if(!this.isLoaded){
             return;
@@ -139,22 +146,17 @@ public class ExcelWorker {
         this.ComBridge.invoke("CalculateFull");
     }
     
-    public void load(File fileIn){
-        Dispatch.put(ComBridge, "Visible", new Variant(false));
-        Dispatch workbook = ComBridge.getProperty("Workbooks").toDispatch();
-        Dispatch.call(workbook, "Open", new Variant(fileIn.getAbsolutePath()));
-        this.activeWorkbook = ComBridge.getProperty("ActiveWorkbook").toDispatch();
-        isLoaded = true;
-        this.getSheets();
+    public ArrayList<String> load(File fileIn){
+        return this.load(fileIn, false);
     }
     
-    public void load(File fileIn, boolean visible){
+    public ArrayList<String> load(File fileIn, boolean visible){
         Dispatch.put(ComBridge, "Visible", new Variant(visible));
         Dispatch workbook = ComBridge.getProperty("Workbooks").toDispatch();
         Dispatch.call(workbook, "Open", new Variant(fileIn.getAbsolutePath()));
         this.activeWorkbook = ComBridge.getProperty("ActiveWorkbook").toDispatch();
         isLoaded = true;
-        this.getSheets();
+        return this.getSheets();
     }
     
     public void saveAs(File s){
@@ -163,6 +165,14 @@ public class ExcelWorker {
     
     public void save(){
         Dispatch.call(this.activeWorkbook, "Save");
+    }
+    
+    public void close(){
+        Dispatch.call(this.activeWorkbook, "Close");
+    }
+    
+    public void quit(){
+        this.ComBridge.invoke("Quit");
     }
     
     private void initComBridge() throws IOException{
@@ -185,8 +195,8 @@ public class ExcelWorker {
     }
     
     public void safeRelease(){
-        Dispatch.call(this.activeWorkbook, "Close");
-        this.ComBridge.invoke("Quit");
+        this.close();
+        this.quit();
         this.ComBridge.safeRelease();
         ComThread.Release();
         ComThread.quitMainSTA();

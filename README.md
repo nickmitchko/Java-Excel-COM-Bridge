@@ -1,4 +1,4 @@
-Java-Excel-COM-Bridge (1.0)
+Java-Excel-COM-Bridge (2.0) ~~(1.0)~~
 =====================
 
 
@@ -43,10 +43,6 @@ A library that properly communicates with an excel com object to load, open, mod
                     //Excel processes which leak memory
 
 ![alt text](http://i.imgur.com/b3FuvgU.png, "Data Diagram")
-
-- Version 1.0
-![GitHub Logo](http://www.brotherlykicks.com/pics/profile.png)
-
 
 - Version 2.0
 ![new test](http://i.imgur.com/nPLv56I.png)

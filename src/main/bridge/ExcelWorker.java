@@ -3,16 +3,11 @@ package main.bridge;
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.ComThread;
 import com.jacob.com.Dispatch;
-import com.jacob.com.LibraryLoader;
 import com.jacob.com.Variant;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @date June 5, 2014
@@ -137,10 +132,21 @@ public class ExcelWorker {
         this.ComBridge.invoke("CalculateFull");
     }
     
+    /**
+     *
+     * @param fileIn The file to load into Excel
+     * @return Returns an <b>ArrayList<String></b> of all the sheet names
+     */
     public ArrayList<String> load(File fileIn){
         return this.load(fileIn, false);
     }
     
+    /**
+     *
+     * @param fileIn The file to load into Excel
+     * @param visible Whether or not the excel window is visible
+     * @return Returns an <b>ArrayList<String></b> of all the sheet names
+     */
     public ArrayList<String> load(File fileIn, boolean visible){
         Dispatch.put(ComBridge, "Visible", new Variant(visible));
         Dispatch workbook = ComBridge.getProperty("Workbooks").toDispatch();
@@ -171,48 +177,26 @@ public class ExcelWorker {
         Dispatch.put(this.ComBridge, "Calculation", -4135);
     }
     
+    /**
+     * Closes the file with the same outcome as in excel
+     */
     public void close(){
         Dispatch.call(this.activeWorkbook, "Close");
     }
     
-    public void quit(){
-        this.ComBridge.invoke("Quit");
-    }
-    
     private void initComBridge() throws IOException{
-        //lib file name
-        String libFile = System.getProperty("os.arch").equals("amd64") ? "jacob-1.18-M2-x64.dll" : "jacob-1.18-M2-x86.dll";
-        /* Read DLL file*/
-        InputStream inputStream = ExcelWorker.class.getResourceAsStream(libFile);
-        File temporaryDll = File.createTempFile("jacob", ".dll");
-        /* Write dll to a tempFile */
-        try (FileOutputStream outputStream = new FileOutputStream(temporaryDll)) {
-            byte[] array = new byte[8192];
-            for (int i = inputStream.read(array); i != -1; i = inputStream.read(array)) {
-                outputStream.write(array, 0, i);
-            }
-        }
-        System.setProperty(LibraryLoader.JACOB_DLL_PATH, temporaryDll.getAbsolutePath());
-        LibraryLoader.loadJacobLibrary();
         this.ComBridge = new ActiveXComponent("Excel.Application");
-        temporaryDll.deleteOnExit();
     }
     
     public void safeRelease(){
         this.ComBridge.safeRelease();
     }
     
+    /**
+     * @deprecated Depreciated b/c Loader.shutdown()
+     */
     public void endProcess(){
         ComThread.Release();
         ComThread.quitMainSTA();
-    }
-    
-    public static void main(String args[]){
-        try {
-            ExcelWorker ew = new ExcelWorker();
-            System.out.println();
-        } catch (IOException ex) {
-            Logger.getLogger(ExcelWorker.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

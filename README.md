@@ -1,4 +1,4 @@
-Java-Excel-COM-Bridge (2.0) ~~(1.0)~~
+Java-Excel-COM-Bridge (2.1)
 =====================
 
 
@@ -13,7 +13,9 @@ A library that properly communicates with an excel com object to load, open, mod
                2. import main.bridge.ExcelWorker;
 
  - Initialize
+                    
 
+                    Loader load = new Loader();
                     ExcelWorker worker = new ExcelWorker();
                     
  - Load Workbook (Use any excel supported file here)
@@ -30,15 +32,19 @@ A library that properly communicates with an excel com object to load, open, mod
  - Use the sheet
 
                     worker.setCellValue("This is A3", "A3");
+                    worker.setCellValue(192.03,1,1);
                     Object cellVal = worker.getCellValue("D5");
+                    Object cellVal = worker.getCellValue(5,3);
                     
  - Save the Sheet
 
                     worker.saveAs(new File("C:\\newWorkbook.xlsx");
+                    //Either
+                    worker.save();
                     
  - Destroy the memory
 
-                    worker.safeRelease();
+                    load.shutdown();
                     //Jacob has to be destoryed manually or else there are lingering
                     //Excel processes which leak memory
 

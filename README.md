@@ -48,10 +48,5 @@ A library that properly communicates with an excel com object to load, open, mod
                     //Jacob has to be destoryed manually or else there are lingering
                     //Excel processes which leak memory
 
-![alt text](http://i.imgur.com/b3FuvgU.png, "Data Diagram")
-
-- Version 2.0
-![new test](http://i.imgur.com/nPLv56I.png)
-
 
 [jacob]:http://danadler.com/jacob/
